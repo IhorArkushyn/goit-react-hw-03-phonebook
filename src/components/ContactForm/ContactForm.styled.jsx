@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Form = styled.form`
   max-width: 360px;
-  border-radius: 5px;
+  border-radius: 15px;
   padding: 10px;
   background-color: #68829e;
 `;

@@ -5,6 +5,8 @@ import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 import * as S from './App.styled';
 
+const LS_KEY = 'current_contacts';
+
 class App extends Component {
   state = {
     contacts: [
@@ -15,6 +17,36 @@ class App extends Component {
     ],
     filter: '',
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log('App componentDidUpdate');
+
+    const nextContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
+
+    if (nextContacts !== prevContacts) {
+      console.log('Обновилось поле todos, записываю todos в хранилище');
+      localStorage.setItem(LS_KEY, JSON.stringify(nextContacts));
+    }
+
+    // if (
+    //   nextContacts.length > prevContacts.length &&
+    //   prevContacts.length !== 0
+    // ) {
+    //   this.toggleModal();
+    // }
+  }
+
+  componentDidMount() {
+    // console.log('App componentDidMount');
+
+    const contacts = localStorage.getItem(LS_KEY);
+    const parsedContacts = JSON.parse(contacts);
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
 
   addContact = ({ name, number }) => {
     const normalizedFind = name.toLowerCase();
